@@ -19,6 +19,7 @@ class CreateProductImagesTable extends Migration
 
             $table->unsignedBigInteger('product_id');
             $table->string('name')->nullable();
+            $table->string('image');
         });
     }
 
