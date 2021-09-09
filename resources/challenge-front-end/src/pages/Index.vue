@@ -21,9 +21,9 @@
             style="width: 220px; height: 150px"
           >
             <q-carousel-slide
-              v-for="(image, index) in product.images"
+              v-for="(image, index) in product.images[0].image"
               :key="index"
-              :name="index"
+              :name="product.images[0].name"
               :img-src="image"
             />
           </q-carousel>
@@ -160,8 +160,8 @@ export default defineComponent({
 // },
 // {
 //   id: 4,
-//   name: 'Jaqueta de couro masculina em couro',
-//   description: 'Grave vídeos 4K, faça belos retratos e capture paisagens inteiras com o novo',
+//   name: 'Fone de ouvido over-ear sem fio Philco Wave PFO01B preto',
+//   description: 'Fone de ouvido over-ear sem fio Philco Wave PFO01B preto, excelente surround play plus extra full',
 //   price: 200,
 //   images: [
 //     'https://cdn.quasar.dev/img/mountains.jpg',
