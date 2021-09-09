@@ -8,7 +8,7 @@ use App\Models\Product;
 
 class ProductImage extends Model
 {
-    protected $fillable = ['product_id', 'name'];
+    protected $fillable = ['product_id', 'name', 'image'];
 
     public function products()
     {
