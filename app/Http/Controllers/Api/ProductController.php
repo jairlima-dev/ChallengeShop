@@ -19,7 +19,7 @@ class ProductController extends Controller
     public function index()
     {
         return new ProductCollection(
-            Product::with('images')->get()
+            Product::all()
         );
     }
 
