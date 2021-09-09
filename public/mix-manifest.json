@@ -1,0 +1,8 @@
+{
+    "/resources/views/app.blade.php": "/resources/views/app.blade.php",
+    "/favicon.ico": "/favicon.ico",
+    "/index.html": "/index.html",
+    "/manifest.json": "/manifest.json",
+    "/service-worker.js": "/service-worker.js",
+    "/workbox-c871d045.js": "/workbox-c871d045.js"
+}
