@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Api\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductImageResource;
+
 
 class ProductImageController extends Controller
 {
@@ -18,16 +21,6 @@ class ProductImageController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -35,7 +28,23 @@ class ProductImageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'product_id' => 'required',
+            'image' => 'required|file|mimes:png'
+        ]);
+
+        $images = $request->file('image');
+        foreach ($images as $image) {
+            $image_urn = $image->store('images', 'public');
+        
+            $product_image = ProductImage::create([
+                'product_id' => $request->product_id,
+                'name' => $request->name,
+                'image' => $image_urn
+            ]);
+        }
+                
+        return new ProductImageResource($product_image);
     }
 
     /**
@@ -45,17 +54,6 @@ class ProductImageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(ProductImage $productImage)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ProductImage  $productImage
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ProductImage $productImage)
     {
         //
     }
