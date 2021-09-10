@@ -1,122 +1,35 @@
 <template>
-  <q-page class="flex q-pa-lg content-start">
-    <div class="row full-width justify-between q-px-sm">
-      <span class="text-h5 text-weight-bold">
-        Lista de Produtos
-      </span>
-    </div>
+  <q-page>
 
-    <div v-for="product in products" :key="product.id" class="q-px-sm">
-      <q-card
-        class="full-width q-ma-md q-pb-xs column full-height"
-        style="max-width: 270px; max-height: 360px"
-      >
-        <q-card-section class="q-py-md q-px-lg col-auto">
-          <q-carousel
-            animated
-            v-model="slide"
-            arrows
-            navigation
-            infinite
-            style="width: 220px; height: 150px"
-          >
-            <q-carousel-slide
-              v-for="(image, index) in product.images[0].image"
-              :key="index"
-              :name="product.images[0].name"
-              :img-src="image"
-            />
-          </q-carousel>
-        </q-card-section>
-        <q-card-section class="q-px-md q-py-sm col">
-          <div class="text-subtitle1 text-bold ellipsis-2-lines">{{ product.name }}</div>
-          <div class="text-caption ellipsis-2-lines">{{ product.description }}</div>
-        </q-card-section>
+    <shop-title title="Produtos em destaque"/>
 
-        <q-separator/>
-
-        <div class="row justify-between col-auto">
-          <q-card-section class="q-pa-sm">
-            <div class="col text-h6 q-pl-sm">
-              {{ product.price.toLocaleString('pt-pt',{style: 'currency', currency: 'EUR'}) }}
-            </div>
-          </q-card-section>
-
-          <q-card-actions>
-            <q-btn
-              rounded
-              no-caps
-              label="Comprar"
-              v-if="!isInCart(product)"
-              @click="setProductsInCart(product)"
-              icon="add_shopping_cart"
-              color="primary"
-              class="q-py-lg"
-            />
-            <q-btn
-              rounded
-              no-caps
-              label="Remover"
-              v-else
-              @click="removeFromCart(product)"
-              icon="remove_shopping_cart"
-              color="grey"
-              class="q-py-lg"
-            />
-          </q-card-actions>
-        </div>
-
-      </q-card>
-    </div>
+    <shop-card :source="products" />
 
   </q-page>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { mapGetters, mapActions } from 'vuex'
+import ShopCard from '../components/ShopCard.vue'
+import ShopTitle from '../components/ShopTitle.vue'
 
 export default defineComponent({
+  components: { ShopTitle, ShopCard },
   name: 'PageIndex',
-  setup () {
-    return {
-      slide: ref(1)
-    }
-  },
 
   computed: {
     ...mapGetters('products', [
-      'products',
-      'productsInCart',
-      'productsLoading'
+      'products'
     ])
   },
 
   methods: {
     ...mapActions('products', [
       'getProducts',
-      'getCart',
-      'setProductsInCart',
-      'removeProductsFromCart'
-    ]),
+      'getCart'
+    ])
 
-    isInCart (product) {
-      return this.productsInCart.find(item => item.id === product.id)
-    },
-
-    removeFromCart (product) {
-      this.$q.notify({
-        position: 'top',
-        message: 'Deseja remover o item do Carrinho?',
-        color: 'blue',
-        timeout: 0,
-        icon: 'fas fa-check',
-        actions: [
-          { label: 'Sim', color: 'white', handler: () => { this.removeProductsFromCart(product) } },
-          { label: 'Não', color: 'yellow', handler: () => { } }
-        ]
-      })
-    }
   },
 
   beforeMount () {
